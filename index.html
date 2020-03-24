@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Prova ig Embed</title>
+
+
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<style>
+
+</style>
+
+
+</head>
+
+<body>
+
+<a href="#" id="opener"><img src="https://instagram.com/p/B93ttu-ILrL/media/"> </a>
+
+<div id="test">
+</div>
+
+<div id="dialog">
+Prova2
+</div>
+
+
+
+
+
+
+
+<script>
+/*
+$.getJSON('https://api.instagram.com/oembed?url=https://www.instagram.com/p/B93ttu-ILrL/', function(data) {
+console.log(data);
+
+theDiv = document.querySelector('#test');
+console.log(theDiv)
+
+theDiv.innerHTML = data.html
+});
+*/
+</script>
+
+<script>
+$( function() {
+  $( "#dialog" ).dialog({
+    autoOpen: false
+  });
+
+  $( "#opener" ).on( "click", function() {
+    $( "#dialog" ).dialog( "open" );
+
+    $.getJSON('https://api.instagram.com/oembed?url=https://www.instagram.com/p/B93ttu-ILrL/', function(data) {
+
+    theDiv = document.querySelector('#dialog');
+
+    theDiv.innerHTML = data.html
+  });
+
+});
+});
+</script>
+
+</body>
+
+</html>
