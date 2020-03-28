@@ -200,7 +200,7 @@
         let data = cropper.getData(true);
         document.querySelector("#info").innerHTML = data.width + "x" + data.height + "px";
 
-        if (data.width < 1000) {
+        if (data.width < 1920) {
           document.querySelector("#alert").style.display = "inline";
         } else {
           download_link.style.display = "inline";
