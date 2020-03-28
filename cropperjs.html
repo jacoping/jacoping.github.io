@@ -71,6 +71,11 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
 
 
 
+
+
+
+
+
   <h1>
     Strumento di supporto per il caricamento di immagini sui siti unifi.it (beta)
   </h1>
@@ -78,10 +83,11 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
     OUTPUT ATTESO: 1920x654 px - minore di 300kb
   </h2>
   <p>
-    <span id="info"> </span>
-        </p>
-          <p>
-    <a href="#" id="download_link">DOWNLOAD</a>
+    Load an image to be cropped: <input id="image_loader" type=file>
+  </p>
+  <p>
+    Cropped image size in px: <span id="info"> </span> &nbsp &nbsp &nbsp
+    <a href="#" id="download_link" download>DOWNLOAD CROPPED IMAGE</a>
   </p>
 
   <!-- Wrap the image or canvas element with a block element (container) -->
@@ -90,7 +96,7 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
   </div>
 
   <div class="clear">
-    <h2> versione desktop </h2>
+    <h2> versione desktop: </h2>
     <div class="preview-container">
     </div>
     <img class="preview" id="result"><br>
@@ -98,7 +104,7 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
   <div class="clear">
 
     <div class="clear">
-      <h2> versione mobile </h2>
+      <h2> versione mobile: </h2>
       <div class="preview-container">
         <img class="preview" id="result_mobile">
         <div class="mask" id="left-mask"></div>
@@ -111,22 +117,25 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
 
 
 
+
+
+
       <script>
 
-        const download = function(dataurl) {
-          alert("3");
-          let a = document.createElement("a");
-          const source = document.querySelector('#result')
-          a.href = source.src;
-          a.click()
-        }
         // import 'cropperjs/dist/cropper.css';
 
+        const image_loader = document.querySelector('#image_loader')
         const image = document.querySelector('#image')
         const preview = document.querySelector('#preview')
         const result = document.querySelector('#result')
         const result_mobile = document.querySelector('#result_mobile')
         const download_link = document.querySelector('#download_link')
+
+        image_loader.addEventListener('change', function() {
+          let file = image_loader.files[0];
+          let url = URL.createObjectURL(file);
+          cropper.replace(url);
+        });
 
         const cropper = new Cropper(image, {
           aspectRatio: 1920 / 654, // size of output image
@@ -149,16 +158,28 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
         const doCrop = function() {
           let data = cropper.getData()
           document.querySelector("#info").innerHTML = data.width + " " + data.height;
+
+          /*
           let dataurl = cropper.getCroppedCanvas({
             maxWidth: 1920,
 
           }).toDataURL();
-          // }).toBlob();
+
           result.src = dataurl;
           result_mobile.src = dataurl;
-          // download_link.href = dataurl;
+          */
 
-          download_link.addEventListener("click", download);
+          let blob = cropper.getCroppedCanvas({
+            maxWidth: 1920,
+
+          }).toBlob(function(blob) {
+              url = URL.createObjectURL(blob);
+              result.src = url;
+              result_mobile.src = url;
+              download_link.href = url;
+            }, 'image/jpeg', 0.95 // image type and quality
+          );
+
         }
       </script>
 
