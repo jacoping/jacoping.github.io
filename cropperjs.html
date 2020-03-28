@@ -69,6 +69,10 @@
       color: red;
     }
 
+    #alert, #download_link {
+      display: none;
+    }
+
   </style>
 
 </head>
@@ -114,9 +118,9 @@
         <img class="cropper" id="image" src="sample_uno.jpg">
       </div>
       <p>
-        Cropped image size: <span id="info"> </span> &nbsp &nbsp &nbsp
-        <a href="#" id="download_link" download="cropped.jpg">DOWNLOAD CROPPED IMAGE</a>
-      <span id="alert">IMAGE TOO SMALL</span>
+        Risoluzione origine: <span id="info"> </span> &nbsp
+        <a href="#" id="download_link" download="cropped.jpg">SCARICA IMMAGINE RITAGLIATA</a>
+      <span id="alert">RISOLUZIONE TROPPO BASSA</span>
     </div>
 
     <div class="wrapper" id="anteprima_wrapper">
@@ -200,7 +204,7 @@
         let data = cropper.getData(true);
         document.querySelector("#info").innerHTML = data.width + "x" + data.height + "px";
 
-        if (data.width < 1920) {
+        if (data.width < 1700) {
           document.querySelector("#alert").style.display = "inline";
         } else {
           download_link.style.display = "inline";
