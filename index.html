@@ -3,100 +3,16 @@
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Prova ig Embed</title>
+  <title<JACOPING</title>
 
 
-
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-  <script src="https://www.instagram.com/static/bundles/es6/EmbedSDK.js/bf4a12bd69f3.js"></script>
-
-
-  <style>
-
-  </style>
 
 
 </head>
 
 <body>
 
-  <a href="#" id="opener1" ig="B93ttu-ILrL"><img src="https://instagram.com/p/B93ttu-ILrL/media/"> </a>
-  <a href="#" id="opener2" ig="B-HUUfUFb4H"><img src="https://instagram.com/p/B-HUUfUFb4H/media/"> </a>
-  <a href="#" id="opener3" ig="BB-HUMuPlDg4"><img src="https://instagram.com/p/B-HUMuPlDg4/media/"> </a>
-
-  <div id="test">
-  </div>
-
-  <div id="dialog">
-    Prova2
-  </div>
-
-
-
-
-
-
-
-  <script>
-    /*
-$.getJSON('https://api.instagram.com/oembed?url=https://www.instagram.com/p/B93ttu-ILrL/', function(data) {
-console.log(data);
-
-theDiv = document.querySelector('#test');
-console.log(theDiv)
-
-theDiv.innerHTML = data.html
-});
-*/
-  </script>
-
-  <script>
-    $(function() {
-      $("#dialog").dialog({
-        autoOpen: false
-      });
-
-      $("#opener1").on("click", function() {
-
-        $("#dialog").dialog("open");
-        var url = 'https://api.instagram.com/oembed?url=https://www.instagram.com/p/B93ttu-ILrL/';
-        $.getJSON(url, function(data) {
-
-          theDiv = document.querySelector('#dialog');
-          theDiv.innerHTML = data.html;
-          instgrm.Embeds.process();
-        });
-      });
-
-      $("#opener2").on("click", function() {
-
-        $("#dialog").dialog("open");
-        var url = 'https://api.instagram.com/oembed?url=https://www.instagram.com/p/B-HUUfUFb4H/';
-        $.getJSON(url, function(data) {
-
-          theDiv = document.querySelector('#dialog');
-          theDiv.innerHTML = data.html;
-          instgrm.Embeds.process();
-        });
-      });
-
-      $("#opener3").on("click", function() {
-
-        $("#dialog").dialog("open");
-        var url = 'https://api.instagram.com/oembed?url=https://www.instagram.com/p/B-HUMuPlDg4/';
-        $.getJSON(url, function(data) {
-
-          theDiv = document.querySelector('#dialog');
-          theDiv.innerHTML = data.html;
-          instgrm.Embeds.process();
-        });
-      });
-
-    });
-  </script>
-
+  
 </body>
 
 </html>

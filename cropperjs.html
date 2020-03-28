@@ -9,36 +9,37 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
 
-  <!--
-LOAD FROM FILE:
-https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-js/
--->
 
   <style>
-    div.clear {
-      cloar: both;
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
     }
 
-    div {
-      min-height: 10px;
-    }
 
-    div.cropper-container {
-      max-width: 200px;
-    }
-
-    div.preview-container {
-      position: relative;
-      float: left;
-    }
-
+    /* questo è richiesto da cropperJS */
     img.cropper {
       display: block;
       max-width: 100%;
     }
 
+    div.cropper-container {
+      max-width: 500px;
+    }
+
+
+    #anteprima_wrapper {
+      margin: 80px 20px;
+    }
+
+
     img.preview {
       height: 200px;
+    }
+
+    div.preview-container {
+      position: relative;
+      float: left;
     }
 
     .mask {
@@ -62,6 +63,12 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
       height: 300px;
       background-position: center;
     }
+
+    #alert {
+      font-weight: bold;
+      color: red;
+    }
+
   </style>
 
 </head>
@@ -77,39 +84,58 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
 
 
   <h1>
-    Strumento di supporto per il caricamento di immagini sui siti unifi.it (beta)
+    Tool di supporto per la creazione di immagini di copertina (beta).
   </h1>
-  <h2>
-    OUTPUT ATTESO: 1920x654 px - minore di 300kb
-  </h2>
   <p>
-    Load an image to be cropped: <input id="image_loader" type=file>
+    Siti dipartimenti unifi.it |
+    Output richiesto: jpg 1920x654px &lt;300kb
   </p>
-  <p>
-    Cropped image size in px: <span id="info"> </span> &nbsp &nbsp &nbsp
-    <a href="#" id="download_link" download>DOWNLOAD CROPPED IMAGE</a>
-  </p>
+  <hr>
+
+
+
 
   <!-- Wrap the image or canvas element with a block element (container) -->
-  <div class="cropper-container">
-    <img class="cropper" id="image" src="sample.jpg">
-  </div>
 
-  <div class="clear">
-    <h2> versione desktop: </h2>
-    <div class="preview-container">
+  <div class="flex">
+
+    <div class="wrapper" id="cropper_wrapper">
+      <p>
+
+        Scegliere un'immagine di prova:
+        <button id="img_uno">UNO</button>
+        <button id="img_due">DUE</button>
+        <button id="img_tre">TRE</button>
+        <br>
+        O caricare un'immagine: <input id="image_loader" type=file>
+      </p>
+
+      <div class="cropper-container">
+        <img class="cropper" id="image" src="sample_uno.jpg">
+      </div>
+      <p>
+        Cropped image size: <span id="info"> </span> &nbsp &nbsp &nbsp
+        <a href="#" id="download_link" download="cropped.jpg">DOWNLOAD CROPPED IMAGE</a>
+      <span id="alert">IMAGE TOO SMALL</span>
     </div>
-    <img class="preview" id="result"><br>
-  </div>
-  <div class="clear">
 
-    <div class="clear">
-      <h2> versione mobile: </h2>
+    <div class="wrapper" id="anteprima_wrapper">
+
+      <div class="preview-container">
+        <img class="preview" id="result"><br>
+      </div>
+      <p> anteprima versione desktop</p>
+
+
       <div class="preview-container">
         <img class="preview" id="result_mobile">
         <div class="mask" id="left-mask"></div>
         <div class="mask" id="right-mask"></div>
       </div>
+      <p> anteprima versione mobile</p>
+
+
+    </div> <!-- flexbox container -->
 
 
 
@@ -120,68 +146,79 @@ https://www.cssscript.com/demo/easy-client-side-image-cropping-library-cropper-j
 
 
 
-      <script>
+    <script>
+      // import 'cropperjs/dist/cropper.css';
 
-        // import 'cropperjs/dist/cropper.css';
+      const image_loader = document.querySelector('#image_loader')
+      const image = document.querySelector('#image')
+      const preview = document.querySelector('#preview')
+      const result = document.querySelector('#result')
+      const result_mobile = document.querySelector('#result_mobile')
+      const download_link = document.querySelector('#download_link')
 
-        const image_loader = document.querySelector('#image_loader')
-        const image = document.querySelector('#image')
-        const preview = document.querySelector('#preview')
-        const result = document.querySelector('#result')
-        const result_mobile = document.querySelector('#result_mobile')
-        const download_link = document.querySelector('#download_link')
+      document.querySelector('#img_uno').addEventListener('click', function() {
+        let url = "sample_uno.jpg";
+        cropper.replace(url);
+      });
+      document.querySelector('#img_due').addEventListener('click', function() {
+        let url = "sample_due.jpg";
+        cropper.replace(url);
+      });
+      document.querySelector('#img_tre').addEventListener('click', function() {
+        let url = "sample_tre.jpg";
+        cropper.replace(url);
+      });
 
-        image_loader.addEventListener('change', function() {
-          let file = image_loader.files[0];
-          let url = URL.createObjectURL(file);
-          cropper.replace(url);
-        });
+      image_loader.addEventListener('change', function() {
+        let file = image_loader.files[0];
+        let url = URL.createObjectURL(file);
+        cropper.replace(url);
+      });
 
-        const cropper = new Cropper(image, {
-          aspectRatio: 1920 / 654, // size of output image
-          viewMode: 1, // restricts crop area to image area
-          preview: preview,
-          autoCropArea: 1,
-          movable: false,
-          zoomable: false,
-          toggleDragModeOnDblclick: false,
+      const cropper = new Cropper(image, {
+        aspectRatio: 1920 / 654, // size of output image
+        viewMode: 1, // restricts crop area to image area
+        preview: preview,
+        autoCropArea: 1,
+        movable: false,
+        zoomable: false,
+        toggleDragModeOnDblclick: false,
 
 
-          crop(event) {
-            console.log(event.detail.width);
-            console.log(event.detail.height);
-            clearTimeout();
-            setTimeout(doCrop, 500);
-          },
-        });
+        crop(event) {
+          console.log(event.detail.width);
+          console.log(event.detail.height);
+          clearTimeout();
+          setTimeout(doCrop, 500);
+        },
+      });
 
-        const doCrop = function() {
-          let data = cropper.getData()
-          document.querySelector("#info").innerHTML = data.width + " " + data.height;
+      const doCrop = function() {
+        document.querySelector("#alert").style.display = "none";
+        download_link.style.display  = "none";
 
-          /*
-          let dataurl = cropper.getCroppedCanvas({
-            maxWidth: 1920,
+        let data = cropper.getData(true);
+        document.querySelector("#info").innerHTML = data.width + "x" + data.height + "px";
 
-          }).toDataURL();
-
-          result.src = dataurl;
-          result_mobile.src = dataurl;
-          */
-
-          let blob = cropper.getCroppedCanvas({
-            maxWidth: 1920,
-
-          }).toBlob(function(blob) {
-              url = URL.createObjectURL(blob);
-              result.src = url;
-              result_mobile.src = url;
-              download_link.href = url;
-            }, 'image/jpeg', 0.95 // image type and quality
-          );
-
+        if (data.width < 1000) {
+          document.querySelector("#alert").style.display = "inline";
+        } else {
+          download_link.style.display = "inline";
         }
-      </script>
+
+        let blob = cropper.getCroppedCanvas({
+          // options
+          maxWidth: 1920
+        }).toBlob(function(blob) {
+            url = URL.createObjectURL(blob);
+            result.src = url;
+            result_mobile.src = url;
+            download_link.href = url;
+          }, 'image/jpeg', 0.7 // image type and quality
+        );
+
+      }
+    </script>
 
 </body>
 
